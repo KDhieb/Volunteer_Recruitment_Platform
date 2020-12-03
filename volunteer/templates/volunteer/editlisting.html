@@ -1,0 +1,25 @@
+{% extends "volunteer/base.html" %}
+{% load crispy_forms_filters %}
+
+{% block header %}
+
+<h2 class ="container">Edit Listing:</h2>
+{% endblock header %}
+
+{% block content %}
+
+    <div class = "container">
+
+    <form class="form" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form|crispy }}
+
+  <button class = "btn btn-primary"type="submit" name="button">Save</button>
+</form>
+
+<form action="{% url 'volunteer:deletelisting' listing.id %}" method="post">
+    {% csrf_token %}
+    <button style ="background-color: #ff0000 !important;" class ="btn btn-primary" type="submit" name="button">Delete Article</button>
+
+    </div>
+{% endblock content %}

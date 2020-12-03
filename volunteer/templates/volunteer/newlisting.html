@@ -1,0 +1,116 @@
+{% extends "volunteer/base.html" %}
+{% load crispy_forms_filters %}
+
+{% load static %}
+
+{% block title %}
+<title>Lend A Hand -Post New Role</title>
+{% endblock title %}
+
+{% block content %}
+    <div class="container">
+<form class="form" method="post" enctype="multipart/form-data" >
+
+  {% csrf_token %}
+  {{ form|crispy }}
+
+  <button class = "btn btn-success" type="submit" name="button">Create Listing</button>
+
+</form>
+
+    </div>
+
+
+
+
+{#    DELETE ALL THIS IF COMPLETED -------------------------------------------------------------#}
+{#<div class="unit-5 overlay" style="background-image: url('images/hero_bg_2.jpg');">#}
+{#      <div class="container text-center">#}
+{#        <h2 class="mb-0">Post a Volunteer Opportunity</h2>#}
+{#        <p class="mb-0 unit-6"><a href="index.html">Home</a> <span class="sep">></span> <span>Post a Volunteer Opportunity</span></p>#}
+{#      </div>#}
+{#    </div>#}
+{##}
+{##}
+{#    #}
+{#    <div class="site-section bg-light">#}
+{#      <div class="container">#}
+{#        <div class="row">#}
+{##}
+{#          <div class="col-md-12 col-lg-12 mb-5">#}
+{##}
+{#            <form action="#" class="p-5 bg-white">#}
+{##}
+{#              <div class="row form-group">#}
+{#                <div class="col-md-12 mb-3 mb-md-0">#}
+{#                  <label class="font-weight-bold" for="fullname">Position Title</label>#}
+{#                  <input type="text" id="fullname" class="form-control" placeholder="eg. Soup Kitchen Volunteer">#}
+{#                </div>#}
+{#              </div>#}
+{##}
+{#              <div class="row form-group mb-5">#}
+{#                <div class="col-md-12 mb-3 mb-md-0">#}
+{#                  <label class="font-weight-bold" for="fullname">Organization</label>#}
+{#                  <input type="text" id="fullname" class="form-control" placeholder="Your Not For Profit's Name">#}
+{#                </div>#}
+{#              </div>#}
+{##}
+{#              <div class="row form-group">#}
+{#                <div class="col-md-12"><h3>Volunteer Opportunity Type</h3></div>#}
+{#                <div class="col-md-12 mb-3 mb-md-0">#}
+{#                  <label for="option-job-type-1">#}
+{#                    <input type="radio" id="option-job-type-1" name="job-type"> One-time#}
+{#                  </label>#}
+{#                </div>#}
+{#                <div class="col-md-12 mb-3 mb-md-0">#}
+{#                  <label for="option-job-type-2">#}
+{#                    <input type="radio" id="option-job-type-2" name="job-type"> Weekly#}
+{#                  </label>#}
+{#                </div>#}
+{#                <div class="col-md-12 mb-3 mb-md-0">#}
+{#                  <label for="option-job-type-2">#}
+{#                    <input type="radio" id="option-job-type-2" name="job-type"> Monthly#}
+{#                  </label>#}
+{#                </div>#}
+{#              </div>#}
+{##}
+{#              <div class="row form-group mb-4">#}
+{#                <div class="col-md-12"><h3>Volunteering Dates</h3></div>#}
+{#                <div class="col-md-12 mb-3 mb-md-0">#}
+{#                  Start Date: <input type="date" class="form-control">#}
+{#                </div>#}
+{#                <div class="col-md-12 mb-3 mb-md-0">#}
+{#                  End Date:<input type="date" class="form-control">#}
+{#                </div>#}
+{#              </div>#}
+{##}
+{##}
+{#              <div class="row form-group mb-4">#}
+{#                <div class="col-md-12"><h3>Location</h3></div>#}
+{#                <div class="col-md-12 mb-3 mb-md-0">#}
+{#                  <input type="text" class="form-control" placeholder="Vancouver">#}
+{#                </div>#}
+{#              </div>#}
+{##}
+{#              <div class="row form-group">#}
+{#                <div class="col-md-12"><h3>Description of Volunteer Opportunity</h3></div>#}
+{#                <div class="col-md-12 mb-3 mb-md-0">#}
+{#                  <textarea name="" class="form-control" id="" cols="30" rows="5"></textarea>#}
+{#                </div>#}
+{#              </div>#}
+{##}
+{#              <div class="row form-group">#}
+{#                <div class="col-md-12">#}
+{#                  <input type="submit" value="Post" class="btn btn-primary  py-2 px-5">#}
+{#                </div>#}
+{#              </div>#}
+{##}
+{##}
+{#            </form>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+
+{% endblock content %}
+
