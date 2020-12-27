@@ -8,7 +8,7 @@ from django.contrib import messages #import messages
 # Create your views here.
 
 # Create your views here.
-from account.forms import NewNPOAccountForm
+#from account.forms import NewNPOAccountForm
 
 
 def logout_view(request):
@@ -17,36 +17,34 @@ def logout_view(request):
     return HttpResponseRedirect(reverse('volunteer:index'))
 
 
-def register_npo(request):
-    if request.method == "POST":
-        form = NewNPOAccountForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, "Registration successful.")
-            return redirect("volunteer:index")
-        messages.error(request, "Unsuccessful registration. Invalid information.")
-    form = NewNPOAccountForm
-    return render(request=request, template_name="volunteer/nporegister.html", context={"register_form": form})
+# def register_npo(request):
+#     if request.method == "POST":
+#         form = NewNPOAccountForm(request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             login(request, user)
+#             messages.success(request, "Registration successful.")
+#             return redirect("volunteer:index")
+#         messages.error(request, "Unsuccessful registration. Invalid information.")
+#     form = NewNPOAccountForm
+#     return render(request=request, template_name="volunteer/nporegister.html", context={"register_form": form})
 
 
-
-
-def login_npo(request):
-    if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            email = form.cleaned_data.get('email')
-            password = form.cleaned_data.get('password')
-            user = authenticate(email=email, password=password)
-            if user is not None:
-                login(request, user)
-                messages.info(request, f"You are now logged in as {email}.")
-                return redirect("volunteer:index")
-            else:
-                messages.error(request, "Invalid username or password.")
-        else:
-            messages.error(request, "Invalid username or password.")
-    form = AuthenticationForm()
-    return render(request=request, template_name="volunteer/npologin.html", context={"login_form": form})
+# def login_npo(request):
+#     if request.method == "POST":
+#         form = AuthenticationForm(request, data=request.POST)
+#         if form.is_valid():
+#             username = form.cleaned_data.get('username')
+#             password = form.cleaned_data.get('password')
+#             user = authenticate(username=username, password=password)
+#             if user is not None:
+#                 login(request, user)
+#                 messages.info(request, f"You are now logged in as {username}.")
+#                 return redirect("volunteer:index")
+#             else:
+#                 messages.error(request, "Invalid username or password.")
+#         else:
+#             messages.error(request, "Invalid username or password.")
+#     form = AuthenticationForm()
+#     return render(request=request, template_name="volunteer/npologin.html", context={"login_form": form})
 

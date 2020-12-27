@@ -1,0 +1,14 @@
+{% extends "volunteer/base.html" %}
+
+
+{% block content %}
+
+    <h2> Signup to start lending a hand today</h2>
+
+    <p class="lead">Select your account type</p>
+    <a href="{% url 'volunteer:volunteer_signup' %}" class="btn btn-lg" role="button">Volunteer</a>
+    <a href="{% url 'volunteer:npo_signup' %}" class="btn btn-lg" role="button">Non-Profit</a>
+
+{% endblock  %}
+
+

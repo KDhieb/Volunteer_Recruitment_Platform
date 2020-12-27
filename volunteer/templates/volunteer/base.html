@@ -7,6 +7,8 @@
     <title>Lend A Hand - Index</title>
     {% endblock title%}
 
+   <link rel="shortcut icon" href="../../static/images/lendahand-favicon.ico" type="image/x-icon">
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -77,14 +79,26 @@
             <nav class="site-navigation text-right" role="navigation">
 
               <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
-                <li class="active"><a href="{% url 'volunteer:index' %}">Volunteer</a></li>
+                <li><a href="{% url 'volunteer:index' %}">Volunteer</a></li>
                 <li><a href="{% url 'volunteer:about' %}">About</a></li>
-                <li><a href="{% url 'volunteer:index' %}">My Profile</a></li>
-                <li><a href="{% url 'account:logout' %}">Logout</a></li>
-                <li><a href="{% url 'account:login-npo' %}">Login</a></li>
-                <li><a href="register-volunteer.html">Register as Volunteer</a></li>
-                <li><a href="register-npo.html">Register as NPO</a></li>
 
+                  {% if user.is_authenticated %}
+                      {% if user.is_npo %}
+                          <li><a href="{% url 'volunteer:npoprofile' user.id %}">My Profile</a></li>
+                      {% endif %}
+
+                      {% if user.is_volunteer %}
+                          <li><a href="{% url 'volunteer:volunteerprofile' user.id %}">My Profile</a></li>
+                      {% endif %}
+
+                      <li><a href="{% url 'account:logout' %}">Logout</a></li>
+                      <li><p><b>&nbsp;&nbsp;&nbsp; Welcome, {{ user.name }}</b></p></li>
+                  {% endif %}
+
+                  {% if not user.is_authenticated %}
+                      <li><a href="{% url 'volunteer:signup' %}">Signup</a></li>
+                      <li><a href="{% url 'volunteer:login' %}">Login</a></li>
+                  {% endif %}
               </ul>
 
             </nav>
@@ -103,13 +117,6 @@
 
 
     {% block content %}{% endblock content %}
-
-
-
-
-
-
-
 
 
     <footer class="site-footer">
@@ -156,7 +163,7 @@
           <div class="col-md-12">
             <p>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-             <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>document.write(new Date().getFullYear());</script> Template by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+{#             <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>document.write(new Date().getFullYear());</script> Template by <a href="https://colorlib.com" target="_blank" >Colorlib</a>#}
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </p>
           </div>

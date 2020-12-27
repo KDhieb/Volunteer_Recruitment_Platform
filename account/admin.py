@@ -5,7 +5,4 @@ from django.contrib import admin
 from django.contrib import admin
 from django.contrib.auth.models import Group
 
-from account.models import UserAccount
-
-admin.site.register(UserAccount)
 
