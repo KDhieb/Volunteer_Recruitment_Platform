@@ -14,7 +14,7 @@
   <div class="container">
     <div class="row row-custom align-items-center">
       <div class="col-md-10">
-        <h1 class="mb-2 text-white w-75"><span class="font-weight-bold">Lend a hand </span> Help Your Community</h1>
+        <h1 class="mb-2 text-white w-100"><span class="font-weight-bold">Lend a hand </span> <br> Help Your Community</h1>
         <div class="job-search">
           <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
             <li class="nav-item">
@@ -108,6 +108,8 @@
            <div class="job-post-item-header d-flex align-items-center">
              <h2 class="mr-3 text-black h4">{{listing.title}}</h2>
              <div class="badge-wrap">
+
+
               <span class=
               {% if listing.commitment == "One-time" %}
                 "bg-success text-white badge py-2 px-4"
@@ -117,6 +119,8 @@
                 "bg-warning text-white badge py-2 px-4"
               {% endif %}
               >{{listing.commitment}}</span>
+
+
              </div>
            </div>
            <div class="job-post-item-body d-block d-md-flex">
@@ -126,9 +130,28 @@
           </div>
 
           <div class="ml-auto">
-            <a href="#" class="btn btn-secondary rounded-circle btn-favorite text-gray-500"><span class="icon-heart"></span></a>
+          {% if user.is_authenticated and user.is_volunteer %}
+            {% if listing in user.volunteer.favorites.all %}
+            <a href="{% url 'volunteer:removefromfavorites' user.id listing.id %}" class="btn btn-secondary rounded-circle btn-favorite text-gray-500"><span class="icon-heart favorite-added" style="color: red"></span></a>
+          {% else %}
+            <a href="{% url 'volunteer:addtofavorites' user.id listing.id %}" class="btn btn-secondary rounded-circle btn-favorite text-gray-500"><span class="icon-heart"></span></a>
+          {% endif %}
             <a href="{% url 'volunteer:displaylisting' listing.id %}" class="btn btn-primary py-2">View Listing</a>
-            <a href="job-single.html" class="btn btn-primary py-2">Apply</a>
+              {% if listing in user.volunteer.registered.all %}
+                  <a href="{% url 'volunteer:unapply' user.id listing.id %}" class="btn btn-primary py-2">Withdraw</a>
+              {% else %}
+                  <a href="{% url 'volunteer:apply' user.id listing.id %}" class="btn btn-primary py-2">Apply</a>
+              {% endif %}
+
+              {% elif user.is_authenicated and user.is_npo %}
+              <a href="{% url 'volunteer:displaylisting' listing.id %}" class="btn btn-primary py-2">View Listing</a>
+
+              {% else %}
+              <a href="{% url 'volunteer:displaylisting' listing.id %}" class="btn btn-primary py-2">View Listing</a>
+               <a href="{% url 'volunteer:volunteer_signup' %}" class="btn btn-primary py-2">Apply</a>
+          {% endif %}
+
+
           </div>
 
           
@@ -248,12 +271,12 @@
             <div class="unit-3-icon-wrap mr-4">
               <svg class="unit-3-svg" xmlns="http://www.w3.org/2000/svg" width="59px" height="68px">
                 <path fill-rule="evenodd" stroke-width="2px" stroke-linecap="butt" stroke-linejoin="miter" fill="none" d="M29.000,66.000 L1.012,49.750 L1.012,17.250 L29.000,1.000 L56.988,17.250 L56.988,49.750 L29.000,66.000 Z"></path>
-              </svg><span class="unit-3-icon icon fl-bigmug-line-clipboard68"></span>
+              </svg><span class="unit-3-icon icon fl-bigmug-line-user143"></span>
             </div>
             <h2 class="h5">Search Volunteer Listings</h2>
           </div>
           <div class="unit-3-body">
-            <p>Quickly browse through readily available postings made by local NPO's.</p>
+            <p>Quickly browse through readily available postings made by local NPOs.</p>
           </div>
         </div>
 
@@ -266,12 +289,12 @@
             <div class="unit-3-icon-wrap mr-4">
               <svg class="unit-3-svg" xmlns="http://www.w3.org/2000/svg" width="59px" height="68px">
                 <path fill-rule="evenodd" stroke-width="2px" stroke-linecap="butt" stroke-linejoin="miter" fill="none" d="M29.000,66.000 L1.012,49.750 L1.012,17.250 L29.000,1.000 L56.988,17.250 L56.988,49.750 L29.000,66.000 Z"></path>
-              </svg><span class="unit-3-icon icon fl-bigmug-line-user143"></span>
+              </svg><span class="unit-3-icon icon icon-hospital-o"></span>
             </div>
             <h2 class="h5">Learn about the NPOs</h2>
           </div>
           <div class="unit-3-body">
-            <p>Learn all about the role requirements, commitment level, and the organizations in your community.</p>
+            <p>Learn all about available roles and the non-profit organizations in your community.</p>
           </div>
         </div>
 
@@ -284,7 +307,7 @@
             <div class="unit-3-icon-wrap mr-4">
               <svg class="unit-3-svg" xmlns="http://www.w3.org/2000/svg" width="59px" height="68px">
                 <path fill-rule="evenodd" stroke-width="2px" stroke-linecap="butt" stroke-linejoin="miter" fill="none" d="M29.000,66.000 L1.012,49.750 L1.012,17.250 L29.000,1.000 L56.988,17.250 L56.988,49.750 L29.000,66.000 Z"></path>
-              </svg><span class="unit-3-icon icon fl-bigmug-line-user144"></span>
+              </svg><span class="unit-3-icon icon icon-hand-paper-o"></span>
             </div>
             <h2 class="h5">Lend A Hand</h2>
           </div>

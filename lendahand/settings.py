@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 AUTH_USER_MODEL = 'volunteer.User'
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -51,6 +52,8 @@ INSTALLED_APPS = [
     'account',
 
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

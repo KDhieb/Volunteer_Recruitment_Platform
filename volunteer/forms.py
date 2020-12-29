@@ -14,7 +14,18 @@ class NewListingForm(forms.ModelForm):
 
     class Meta:
         model = Listing
-        fields = ['title', 'commitment', 'org', 'city', 'requirements', 'text']
+        fields = ['title','commitment', 'city', 'requirements', 'text']
+
+    @transaction.atomic
+    def save(self, request):
+        listing = super().save(commit=False)
+        listing.title = self.cleaned_data['title']
+        listing.text = self.cleaned_data['text']
+        listing.requirements = self.cleaned_data['requirements']
+        listing.org = request.user.npo
+        listing.city = self.cleaned_data['city']
+        listing.save()
+        return listing
 
 
 class VolunteerSignUpForm(UserCreationForm):

@@ -1,17 +1,21 @@
 {% extends "volunteer/base.html" %}
 {% load crispy_forms_filters %}
 {% load crispy_forms_tags %}
+{% load bootstrap3 %}
 
 {% block content %}
-    <div class="container">
+    <div class="container" style="margin-bottom: 100px; margin-top: 50px">
   <div class="row">
     <div class="col-md-8 col-sm-10 col-12">
-      <h2>Sign up as a {{ user_type }}</h2>
+      <h5 class="lead">Create an account to begin lending a hand</h5>
+        <hr>
+      <h2>{{ user_type|title }} Sign Up</h2>
       <form method="post" novalidate>
         {% csrf_token %}
-        <input type="hidden" name="next" value="{{ next }}">
+{#        <input type="hidden" name="next" value="{{ next }}">#}
+{#          {% bootstrap_form form %}#}
         {{ form|crispy }}
-        <button type="submit" class="btn btn-success">Sign up</button>
+        <button type="submit" class="btn btn-primary py-2">Sign up</button>
       </form>
     </div>
   </div>
