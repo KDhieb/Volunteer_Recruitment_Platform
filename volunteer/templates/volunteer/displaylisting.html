@@ -4,7 +4,7 @@
 
 
 {% block title %}
-<title>Lend A Hand - {{listing.title}}</title>
+<title xmlns="http://www.w3.org/1999/html">Lend A Hand - {{listing.title}}</title>
 {% endblock title %}
 
 {% block header%}
@@ -94,6 +94,33 @@
               <h3 class="h5 text-black mb-3">Basic Requirements</h3>
               <p>{{listing.requirements|safe}}</p>
           </div>
+        </div>
+        <div class="container">
+
+        {% if user.id == listing.org.user_id %}
+
+            <h3>Registered Volunteers:</h3>
+            <hr>
+
+            {% for volunteer in listing.Registered.all %}
+                <div class="container">
+                <span class="bg-white p-4 align-items-center" style="display: flex; justify-content: space-between" >
+                    <span>
+                        <p><b>Name:</b> {{volunteer.user.name }}</p>
+                        <p><b>Email:</b> {{volunteer.user.email }} </p>
+                        <p><b>Number:</b> {{volunteer.user.number }} </p>
+                        <p><b>Address:</b> {{volunteer.user.address }} </p>
+                    </span>
+                    <span>
+                        <a class="btn btn-primary" href="{% url 'volunteer:volunteerprofile' volunteer.user.id %}">View Profile</a>
+                    </span>
+
+                </span>
+                </div>
+
+            {% endfor %}
+        {% endif %}
+
         </div>
       </div>
     </div>

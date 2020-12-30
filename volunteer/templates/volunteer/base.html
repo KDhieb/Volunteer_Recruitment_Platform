@@ -133,7 +133,7 @@
               <div class="col-6 col-md-3 col-lg-3 mb-5 mb-lg-0">
                 <h3 class="footer-heading mb-4">For Volunteers</h3>
                 <ul class="list-unstyled">
-                  <li><a href="register-volunteer.html">Register</a></li>
+                  <li><a href="">Register</a></li>
                   <li><a href="{% url 'volunteer:about' %}">About</a></li>
                 </ul>
               </div>
@@ -141,7 +141,7 @@
                 <h3 class="footer-heading mb-4">For NPOs</h3>
                 <ul class="list-unstyled">
                   <li><a href="register-npo.html">Register</a></li>
-                  <li><a href="#">Post Listing</a></li>
+                  <li><a href="">Post Listing</a></li>
 
                 </ul>
               </div>
@@ -257,8 +257,15 @@
       }
     </script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&libraries=places&callback=initAutocomplete"
-        async defer></script>
+  <script>
+
+      fetch("../../../apikey.txt")
+      .then(response => response.text());
+      var link = "https://maps.googleapis.com/maps/api/js?key=" + text + "&libraries=places&callback=initAutocomplete";
+  </script>
+
+    <script src= ""
+        async defer> </script>
 
   <script src="{% static "js/main.js" %}"></script>
 

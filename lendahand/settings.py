@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'crispy_forms',
     'ckeditor',
+    'widget_tweaks',
 
     # My Apps
     'volunteer',

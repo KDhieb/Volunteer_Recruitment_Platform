@@ -22,5 +22,6 @@ urlpatterns = [
     path("apply-to-listing/<int:volunteer_id>/<int:listing_id>/", views.apply, name="apply"),
     path("unapply-from-listing-/<int:volunteer_id>/<int:listing_id>/", views.unapply, name="unapply"),
     path("add-to-favorites/<int:volunteer_id>/<int:listing_id>/", views.addToFavorites, name="addtofavorites"),
-    path("remove-from-favorites/<int:volunteer_id>/<int:listing_id>/", views.removeFromFavorites, name="removefromfavorites")
+    path("remove-from-favorites/<int:volunteer_id>/<int:listing_id>/", views.removeFromFavorites, name="removefromfavorites"),
+    path("search/", views.search, name="search")
 ]

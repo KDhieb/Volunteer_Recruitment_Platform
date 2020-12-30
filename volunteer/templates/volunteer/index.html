@@ -1,4 +1,10 @@
 {% extends "volunteer/base.html" %}
+{% load widget_tweaks %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
+
+{% load bootstrap3 %}
 
 
 {% block title %}
@@ -26,29 +32,44 @@
           </ul>
           <div class="tab-content bg-white p-4 rounded" id="pills-tabContent">
             <div class="tab-pane fade show active" id="pills-job" role="tabpanel" aria-labelledby="pills-job-tab">
-              <form action="#" method="post">
+
+
+              <form action="{% url 'volunteer:search' %}" method="post">
+                  {% csrf_token %}
                 <div class="row">
                   <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
-                    <input type="text" class="form-control" placeholder="eg. food prep">
+
+                      {% render_field form.keyword placeholder="Keyword" class="form-control" %}
+{#                    <input type="text" class="form-control" placeholder="eg. food prep">#}
+{#                      {% bootstrap_form form %}#}
+{#                      {{ form.keyword }}#}
+{#                      {% render_field form.keyword class="form-control" placeholder="eg. food prep" %}#}
                   </div>
                   <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
                     <div class="select-wrap">
-                      <span class="icon-keyboard_arrow_down arrow-down"></span>
-                      <select name="" id="" class="form-control">
-                        <option value="one-time">One-time</option>
-                        <option value="weekly">Weekly</option>
-                        <option value="monthly">Monthly</option>
-                      </select>
+                        <span class="icon-keyboard_arrow_down arrow-down"></span>
+                        {% render_field form.commitment class="form-control" %}
+{#                      <span class="icon-keyboard_arrow_down arrow-down"></span>#}
+{#                      <select name="commitment" id="" class="form-control">#}
+{#                        <option value="one-time">One-time</option>#}
+{#                        <option value="weekly">Weekly</option>#}
+{#                        <option value="monthly">Monthly</option>#}
+{#                      </select>#}
                     </div>
                   </div>
                   <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
-                    <input type="text" class="form-control form-control-block search-input" id="autocomplete" placeholder="Location" onFocus="geolocate()">
+{#                    <input type="text" class="form-control form-control-block search-input" id="autocomplete" placeholder="Location" onFocus="geolocate()">#}
+                       {% render_field form.location placeholder="Location" class="form-control" %}
                   </div>
                   <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
-                    <input type="submit" class="btn btn-primary btn-block" value="Search">
+{#                    <input type="submit" class="btn btn-primary btn-block" value="Search">#}
+                      <button type="submit" class="btn btn-primary btn-block">Search</button>
                   </div>
                 </div>
               </form>
+
+
+
             </div>
             <!--
             <div class="tab-pane fade" id="pills-candidate" role="tabpanel" aria-labelledby="pills-candidate-tab">
@@ -98,7 +119,6 @@
     </div>
 
     {% for listing in listings|slice:":5" %}
-
     <div class="row" data-aos="fade">
      <div class="col-md-12">
 
@@ -109,7 +129,6 @@
              <h2 class="mr-3 text-black h4">{{listing.title}}</h2>
              <div class="badge-wrap">
 
-
               <span class=
               {% if listing.commitment == "One-time" %}
                 "bg-success text-white badge py-2 px-4"
@@ -119,8 +138,6 @@
                 "bg-warning text-white badge py-2 px-4"
               {% endif %}
               >{{listing.commitment}}</span>
-
-
              </div>
            </div>
            <div class="job-post-item-body d-block d-md-flex">
@@ -143,7 +160,7 @@
                   <a href="{% url 'volunteer:apply' user.id listing.id %}" class="btn btn-primary py-2">Apply</a>
               {% endif %}
 
-              {% elif user.is_authenicated and user.is_npo %}
+              {% elif user.is_npo %}
               <a href="{% url 'volunteer:displaylisting' listing.id %}" class="btn btn-primary py-2">View Listing</a>
 
               {% else %}

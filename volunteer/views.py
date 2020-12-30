@@ -9,7 +9,7 @@ from django.views.generic import CreateView
 
 from volunteer.models import NPO, Volunteer, Listing, User
 from .decorators import npo_required, volunteer_required
-from .forms import NewListingForm, VolunteerSignUpForm, NPOSignUpForm
+from .forms import NewListingForm, VolunteerSignUpForm, NPOSignUpForm, SearchForm
 from django.contrib import messages
 
 
@@ -19,7 +19,43 @@ from django.contrib import messages
 def index(request):
     listings = Listing.objects.all().order_by("-pub_date")
     context = {'listings': listings}
+
+    if request.method == "POST":
+        form = SearchForm(request)
+        if form.is_valid():
+            searchParams = form.getSearchParams()
+
+            listings = Listing.objects.filter(title__contains=searchParams['keyword'],
+                                              commitment=searchParams['commitment'],
+                                              city__contains=searchParams['location'])
+            context = {"listings": listings}
+            return render(request, "volunteer/search.html", context)
+        else:
+            messages.error(request, "Invalid form.")
+    form = SearchForm()
+    context['form'] = form
     return render(request, "volunteer/index.html", context)
+    # if request.method == "POST":
+    #     form = SearchForm(request)
+    #     if form.is_valid():
+    #         keyword = form.cleaned_data.get('keyword')
+    #         commitment = form.cleaned_data.get('commitment')
+    #         location = form.cleaned_data.get('location')
+    #         listings = Listing.objects.filter(title__contains=keyword,commitment=commitment, city__contains=location)
+    #         context['listings'] = listings
+    #         return render(request, "volunteer/search.html", context)
+    #     else:
+    #         messages.error(request, "Invalid form.")
+    # form = SearchForm()
+    # context['form'] = form
+    #
+    # return render(request, "volunteer/index.html", context)
+
+
+
+
+    return render(request, "volunteer/index.html", context)
+
 
 
 def about(request):
@@ -87,7 +123,7 @@ def newListing(request, org_id):
     if request.user.id != org_id:
         listings = Listing.objects.all().order_by("-pub_date")
         context = {'listings': listings}
-        return render(request, "volunteer/index.html", context)
+        return render(request, "volunteer/404.html", context)
     if request.method != 'POST':
         form = NewListingForm()
     else:
@@ -178,3 +214,23 @@ def login_view(request):
             messages.error(request, "Invalid username or password.")
     form = AuthenticationForm()
     return render(request=request, template_name="volunteer/login.html", context={"login_form": form})
+
+
+def search(request):
+    listings = Listing.objects.all().order_by("-pub_date")
+    context = {'listings': listings}
+
+    if request.method != 'POST':
+        form = SearchForm()
+    else:
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            searchParams = form.getSearchParams(request)
+            listings = Listing.objects.filter(title__contains=searchParams['keyword'],
+                                              commitment=searchParams['commitment'],
+                                              city__contains=searchParams['location'])
+            context = {"listings": listings, 'searchParams': searchParams}
+            return render(request, "volunteer/search.html", context)
+    context = {'form': form}
+    return render(request, 'volunteer/search.html', context)
+

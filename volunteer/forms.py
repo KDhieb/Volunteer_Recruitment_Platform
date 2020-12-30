@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
 
-from volunteer.models import NPO, Listing, User, Volunteer
+from volunteer.models import NPO, Listing, User, Volunteer, CHOICES
 
 from django.contrib import admin
 from ckeditor.widgets import CKEditorWidget
@@ -26,7 +26,6 @@ class NewListingForm(forms.ModelForm):
         listing.city = self.cleaned_data['city']
         listing.save()
         return listing
-
 
 class VolunteerSignUpForm(UserCreationForm):
     email = forms.EmailField()
@@ -73,6 +72,24 @@ class NPOSignUpForm(UserCreationForm):
         user.save()
         npo = NPO.objects.create(user=user)
         return user
+
+class SearchForm(forms.ModelForm):
+    keyword = forms.CharField()
+    commitment = forms.ChoiceField(choices=CHOICES)
+    location = forms.CharField()
+
+    class Meta:
+        model = Listing
+        fields = ['keyword', 'commitment', 'location']
+
+    @transaction.atomic
+    def getSearchParams(self, request):
+        searchParams = {}
+        searchParams['keyword'] =  self.cleaned_data.get('keyword')
+        searchParams['commitment'] = self.cleaned_data.get('commitment')
+        searchParams['location'] = self.cleaned_data.get('location')
+        return searchParams
+
 
 
 
