@@ -4,24 +4,14 @@
 
 
 {% block title %}
-<title xmlns="http://www.w3.org/1999/html">Lend A Hand - {{listing.title}}</title>
+{#<title xmlns="http://www.w3.org/1999/html">Lend A Hand - {{listing.title}}</title>#}
+    <title>Lend A Hand - {{listing.title}}</title>
 {% endblock title %}
 
 {% block header%}
 {% endblock header%}
 
 {% block content %}
-
-{#<div class="col-6 col-xl-2 text-right d-block">#}
-
-{#            <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a></div>#}
-
-{#          </div>#}
-
-{#        </div>#}
-{#      </div>#}
-
-{#    </header>#}
 
     <div class="unit-5 overlay" style="background-image: url({% static 'images/hero_bg_2.jpg' %});">
       <div class="container text-center">
@@ -34,7 +24,7 @@
       <div class="container">
         <div class="row">
 
-          <div class="col-md-12 col-lg-8 mb-5">
+          <div class="col-md-12 col-lg-8 mb-5 card card-text">
 
             <div class="p-5 bg-white" >
 
@@ -65,7 +55,11 @@
               <p>{{listing.text|safe}}</p>
 
                 {% if user.is_volunteer %}
-                <a href="#" class="btn btn-secondary rounded-circle btn-favorite text-gray-500"><span class="icon-heart"></span></a>
+               {% if listing in user.volunteer.favorites.all %}
+                    <a href="{% url 'volunteer:removefromfavorites' user.id listing.id %}" class="btn btn-secondary rounded-circle btn-favorite text-gray-500"><span class="icon-heart favorite-added" style="color: red"></span></a>
+                {% else %}
+                    <a href="{% url 'volunteer:addtofavorites' user.id listing.id %}" class="btn btn-secondary rounded-circle btn-favorite text-gray-500"><span class="icon-heart"></span></a>
+          {% endif %}
                 {% if listing in user.volunteer.registered.all %}
                     <a href="{% url 'volunteer:unapply' user.id listing.id %}" class="btn btn-primary py-2">Withdraw</a>
                     {% else %}
@@ -90,7 +84,7 @@
           <div class="col-lg-4">
 
 
-            <div class="p-4 mb-3 bg-white">
+            <div class="p-4 mb-3 bg-white card card-text">
               <h3 class="h5 text-black mb-3">Basic Requirements</h3>
               <p>{{listing.requirements|safe}}</p>
           </div>
@@ -103,7 +97,7 @@
             <hr>
 
             {% for volunteer in listing.Registered.all %}
-                <div class="container">
+                <div class="container card card-text">
                 <span class="bg-white p-4 align-items-center" style="display: flex; justify-content: space-between" >
                     <span>
                         <p><b>Name:</b> {{volunteer.user.name }}</p>

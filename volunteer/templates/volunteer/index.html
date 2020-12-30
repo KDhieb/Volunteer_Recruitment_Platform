@@ -40,21 +40,13 @@
                   <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
 
                       {% render_field form.keyword placeholder="Keyword" class="form-control" %}
-{#                    <input type="text" class="form-control" placeholder="eg. food prep">#}
-{#                      {% bootstrap_form form %}#}
-{#                      {{ form.keyword }}#}
-{#                      {% render_field form.keyword class="form-control" placeholder="eg. food prep" %}#}
+
                   </div>
                   <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
                     <div class="select-wrap">
                         <span class="icon-keyboard_arrow_down arrow-down"></span>
                         {% render_field form.commitment class="form-control" %}
-{#                      <span class="icon-keyboard_arrow_down arrow-down"></span>#}
-{#                      <select name="commitment" id="" class="form-control">#}
-{#                        <option value="one-time">One-time</option>#}
-{#                        <option value="weekly">Weekly</option>#}
-{#                        <option value="monthly">Monthly</option>#}
-{#                      </select>#}
+
                     </div>
                   </div>
                   <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
@@ -62,7 +54,6 @@
                        {% render_field form.location placeholder="Location" class="form-control" %}
                   </div>
                   <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
-{#                    <input type="submit" class="btn btn-primary btn-block" value="Search">#}
                       <button type="submit" class="btn btn-primary btn-block">Search</button>
                   </div>
                 </div>
@@ -71,34 +62,7 @@
 
 
             </div>
-            <!--
-            <div class="tab-pane fade" id="pills-candidate" role="tabpanel" aria-labelledby="pills-candidate-tab">
-              <form action="#" method="post">
-                <div class="row">
-                  <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
-                    <input type="text" class="form-control" placeholder="eg. Carl Smith">
-                  </div>
-                  <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
-                    <div class="select-wrap">
-                      <span class="icon-keyboard_arrow_down arrow-down"></span>
-                      <select name="" id="" class="form-control">
-                        <option value="">Commitment</option>
-                        <option value="one-time">One-time</option>
-                        <option value="weekly">Weekly</option>
-                        <option value="monthly">Monthly</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
-                    <input type="text" class="form-control form-control-block search-input" id="autocomplete" placeholder="Location" onFocus="geolocate()">
-                  </div>
-                  <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
-                    <input type="submit" class="btn btn-primary btn-block" value="Search">
-                  </div>
-                </div>
-              </form>
-            </div>
-            -->
+
           </div>
         </div>
       </div>

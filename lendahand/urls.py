@@ -22,4 +22,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include('volunteer.urls')),
     path("account/", include('account.urls'))
+
 ]
+
+handler404 = 'volunteer.views.error_404'
+handler500 = 'volunteer.views.error_500'
+handler403 = 'volunteer.views.error_403'
+handler400 = 'volunteer.views.error_400'

@@ -73,6 +73,31 @@ class NPOSignUpForm(UserCreationForm):
         npo = NPO.objects.create(user=user)
         return user
 
+class EditProfileForm(forms.ModelForm):
+
+    email = forms.EmailField()
+    name = forms.CharField(max_length=100, label="Name")
+    number = forms.CharField(max_length=15)
+    address = forms.CharField(max_length=200)
+    about = forms.CharField(widget=CKEditorWidget(), label="About")
+
+    class Meta:
+        model = User
+        fields = ['name','number', 'address','about','username', 'email',]
+
+    @transaction.atomic
+    def save(self, request, commit=True):
+        user = request.user
+        user.name = self.cleaned_data.get('name')
+        user.number = self.cleaned_data.get('number')
+        user.address = self.cleaned_data.get('address')
+        user.about = self.cleaned_data.get('about')
+        user.username = self.cleaned_data.get('username')
+        user.email = self.cleaned_data.get('email')
+        user.save()
+        return user
+
+
 class SearchForm(forms.ModelForm):
     keyword = forms.CharField()
     commitment = forms.ChoiceField(choices=CHOICES)

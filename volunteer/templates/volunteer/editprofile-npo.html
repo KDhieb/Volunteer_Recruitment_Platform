@@ -1,0 +1,21 @@
+{% extends "volunteer/base.html" %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% load bootstrap3 %}
+
+{% block content %}
+    <div class="container" style="margin-bottom: 100px; margin-top: 50px">
+  <div class="row">
+    <div class="col-md-8 col-sm-10 col-12">
+      <h5 class="lead">Update your Profile</h5>
+        <hr>
+      <h2>{{ user_type|title }} Update</h2>
+      <form class="form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary py-2">Update</button>
+      </form>
+    </div>
+  </div>
+    </div>
+{% endblock %}

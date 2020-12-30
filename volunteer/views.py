@@ -9,7 +9,7 @@ from django.views.generic import CreateView
 
 from volunteer.models import NPO, Volunteer, Listing, User
 from .decorators import npo_required, volunteer_required
-from .forms import NewListingForm, VolunteerSignUpForm, NPOSignUpForm, SearchForm
+from .forms import NewListingForm, VolunteerSignUpForm, NPOSignUpForm, SearchForm, EditProfileForm
 from django.contrib import messages
 
 
@@ -19,7 +19,6 @@ from django.contrib import messages
 def index(request):
     listings = Listing.objects.all().order_by("-pub_date")
     context = {'listings': listings}
-
     if request.method == "POST":
         form = SearchForm(request)
         if form.is_valid():
@@ -28,32 +27,12 @@ def index(request):
             listings = Listing.objects.filter(title__contains=searchParams['keyword'],
                                               commitment=searchParams['commitment'],
                                               city__contains=searchParams['location'])
-            context = {"listings": listings}
+            context = {"listings": listings, 'form': form}
             return render(request, "volunteer/search.html", context)
         else:
             messages.error(request, "Invalid form.")
     form = SearchForm()
     context['form'] = form
-    return render(request, "volunteer/index.html", context)
-    # if request.method == "POST":
-    #     form = SearchForm(request)
-    #     if form.is_valid():
-    #         keyword = form.cleaned_data.get('keyword')
-    #         commitment = form.cleaned_data.get('commitment')
-    #         location = form.cleaned_data.get('location')
-    #         listings = Listing.objects.filter(title__contains=keyword,commitment=commitment, city__contains=location)
-    #         context['listings'] = listings
-    #         return render(request, "volunteer/search.html", context)
-    #     else:
-    #         messages.error(request, "Invalid form.")
-    # form = SearchForm()
-    # context['form'] = form
-    #
-    # return render(request, "volunteer/index.html", context)
-
-
-
-
     return render(request, "volunteer/index.html", context)
 
 
@@ -121,9 +100,9 @@ def removeFromFavorites(request, volunteer_id, listing_id):
 @npo_required
 def newListing(request, org_id):
     if request.user.id != org_id:
-        listings = Listing.objects.all().order_by("-pub_date")
-        context = {'listings': listings}
-        return render(request, "volunteer/404.html", context)
+        # listings = Listing.objects.all().order_by("-pub_date")
+        # context = {'listings': listings}
+        return render(request, "volunteer/404.html")
     if request.method != 'POST':
         form = NewListingForm()
     else:
@@ -138,7 +117,7 @@ def newListing(request, org_id):
 @login_required
 @npo_required
 def editListing(request, listing_id):
-    """The article edit listing"""
+    """The edit listing view"""
     listing = Listing.objects.get(id=listing_id)
     if request.method != 'POST':
         form = NewListingForm(instance=listing)
@@ -181,7 +160,6 @@ class VolunteerSignupView(CreateView):
         login(self.request, user)
         return redirect('volunteer:index')
 
-
 class NPOSignUpView(CreateView):
     model = User
     form_class = NPOSignUpForm
@@ -195,7 +173,6 @@ class NPOSignUpView(CreateView):
         user = form.save()
         login(self.request, user)
         return redirect('volunteer:index')
-
 
 def login_view(request):
     if request.method == "POST":
@@ -217,9 +194,9 @@ def login_view(request):
 
 
 def search(request):
-    listings = Listing.objects.all().order_by("-pub_date")
-    context = {'listings': listings}
-
+    # listings = Listing.objects.all().order_by("-pub_date")
+    # context = {'listings': listings}
+    #
     if request.method != 'POST':
         form = SearchForm()
     else:
@@ -229,8 +206,72 @@ def search(request):
             listings = Listing.objects.filter(title__contains=searchParams['keyword'],
                                               commitment=searchParams['commitment'],
                                               city__contains=searchParams['location'])
+
+
             context = {"listings": listings, 'searchParams': searchParams}
+            context['form'] = form
             return render(request, "volunteer/search.html", context)
-    context = {'form': form}
+    context = {'form':form}
+    # context['form'] = form
     return render(request, 'volunteer/search.html', context)
+
+
+@login_required
+@npo_required
+def editProfileNPO(request, npo_id):
+    """The edit npo profile view """
+    if isCorrectUser(request, npo_id):
+        if request.method == "POST":
+            form = EditProfileForm(request.POST, instance=request.user.npo)
+            if form.is_valid():
+                form.save(request)
+                return HttpResponseRedirect(reverse('volunteer:npoprofile', args=[npo_id]))
+        npo = NPO.objects.get(user=request.user)
+        form = EditProfileForm(instance=npo.user)
+        context = {"form": form}
+        return render(request, "volunteer/editprofile-npo.html", context)
+    else:
+        return render(request, "volunteer/404.html")
+
+
+@login_required
+@volunteer_required()
+def editProfileVolunteer(request, volunteer_id):
+    """The edit volunteer profile view """
+    if isCorrectUser(request, volunteer_id):
+        if request.method == "POST":
+            form = EditProfileForm(request.POST, instance=request.user.volunteer)
+            if form.is_valid():
+                form.save(request)
+                return HttpResponseRedirect(reverse('volunteer:volunteerprofile', args=[volunteer_id]))
+        volunteer = Volunteer.objects.get(user=request.user)
+        form = EditProfileForm(instance=volunteer.user)
+        context = {"form": form}
+        return render(request, "volunteer/editprofile-npo.html", context)
+    else:
+        return render(request, "volunteer/404.html")
+
+
+def isCorrectUser(request, id):
+    """Helper function to check if current active user id matches given id"""
+    return request.user.id == id
+
+def error_400(request, exception):
+    data = {}
+    return render(request, 'volunteer/400.html', data)
+
+def error_403(request, exception):
+    data = {}
+    return render(request, 'volunteer/403.html', data)
+
+def error_404(request, exception):
+    data = {}
+    return render(request, 'volunteer/404.html', data)
+
+def error_500(request):
+    data = {}
+    return render(request, 'volunteer/500.html', data)
+
+
+
 
