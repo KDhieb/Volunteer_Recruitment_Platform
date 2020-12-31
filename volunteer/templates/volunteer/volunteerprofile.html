@@ -36,13 +36,18 @@
             {% if user.is_volunteer and user.id == volunteer.user_id %}
                 <h4>Registered</h4>
                 <div class="container card card-text" style="overflow: auto;height:400px; margin-bottom: 50px">
+                {% if not volunteer.registered.all %}
+                        <div class="container">
+                        <h3 class="lead"> You're not registered for any roles yet. </h3>
+                        </div>
+                    {% endif %}
                     <div>
                         {% for listing in volunteer.registered.all %}
 
                         <div class="row" data-aos="">
                             <div class="col-md-12">
 
-                                <div class="job-post-item bg-white p-4 d-block d-md-flex align-items-center">
+                                <div class=" job-post-item bg-white p-4 d-block d-md-flex align-items-center">
 
                                     <div class="mb-4 mb-md-0 mr-5">
                                         <div class="job-post-item-header d-flex align-items-center">
@@ -88,8 +93,14 @@
                 </div>
                 <h4>Favorites</h4>
                 <div class="container card card-text" style="overflow: auto;height:400px; margin-bottom: 50px">
-                        {% for listing in volunteer.favorites.all %}
 
+                {% if not volunteer.favorites.all %}
+                        <div class="container">
+                        <h3 class="lead"> You don't have any favorites yet. </h3>
+                        </div>
+                    {% endif %}
+
+                        {% for listing in volunteer.favorites.all %}
                         <div class="row" data-aos="">
                             <div class="col-md-12">
 
@@ -150,7 +161,9 @@
                 {% endif %}
             <hr>
 
-                <span style="margin-left: 50px" class="d-none d-lg-block"><img class="img-fluid img-profile mx-auto rounded-circle " src="../../static/images/blank-profile-picture.jpg" alt="profile-picture" style="object-fit:cover; width: 75%; height: 175px"></span>
+{#                <span style="margin-left: 50px" class="d-none d-lg-block"><img class="img-fluid img-profile mx-auto rounded-circle " src="{% static 'images/blank-profile-picture.png' %}" alt="profile-picture" style="object-fit:cover; width: 69%; height: 170px"></span>#}
+                <div class=" overlay">
+                    <img class="img-fluid img-profile mx-auto rounded-circle" src="{% static 'images/blank-profile-picture.jpg' %}" alt="profile-picture" style="object-fit:cover; max-width: 50%; max-height: 50%; position: relative; left: 25%"> </div>
                 <p class="mb-0 font-weight-bold">Name</p>
                 <p class="mb-4">{{ volunteer.user.name }}</p>
                 <p class="mb-0 font-weight-bold">Address</p>

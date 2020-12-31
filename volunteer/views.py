@@ -1,8 +1,7 @@
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
-from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView
@@ -13,10 +12,8 @@ from .forms import NewListingForm, VolunteerSignUpForm, NPOSignUpForm, SearchFor
 from django.contrib import messages
 
 
-# Create your views here.
-
-
 def index(request):
+    """View function to display index page and search bar"""
     listings = Listing.objects.all().order_by("-pub_date")
     context = {'listings': listings}
     if request.method == "POST":
@@ -36,12 +33,13 @@ def index(request):
     return render(request, "volunteer/index.html", context)
 
 
-
 def about(request):
+    """View function to display about page"""
     return render(request, "volunteer/about.html")
 
 
 def npoProfile(request, npo_id):
+    """View function to display npo profile """
     npo = NPO.objects.get(user_id=npo_id)
     listings = Listing.objects.filter(org=npo_id)
     context = {'npo': npo, 'listings': listings}
@@ -49,13 +47,14 @@ def npoProfile(request, npo_id):
 
 
 def volunteerProfile(request, volunteer_id):
+    """View function to display volunteer profile"""
     volunteer = Volunteer.objects.get(user_id=volunteer_id)
     context = {'volunteer': volunteer}
     return render(request, "volunteer/volunteerprofile.html", context)
 
 
-
 def displayListing(request, listing_id):
+    """View function to display detailed individual listing"""
     listing = Listing.objects.get(id=listing_id)
     context = {'listing': listing}
     return render(request, "volunteer/displaylisting.html", context)
@@ -64,31 +63,38 @@ def displayListing(request, listing_id):
 @login_required
 @volunteer_required
 def apply(request, volunteer_id, listing_id):
+    """View function to apply to a given listing"""
     volunteer = Volunteer.objects.get(user_id=volunteer_id)
     volunteer.registered.add(Listing.objects.get(id=listing_id))
     volunteer.save()
     context = {'volunteer': volunteer}
     return render(request, "volunteer/volunteerprofile.html", context)
 
+
 def unapply(request, volunteer_id, listing_id):
+    """View function to withdraw from registered role"""
     volunteer = Volunteer.objects.get(user_id=volunteer_id)
     volunteer.registered.remove(Listing.objects.get(id=listing_id))
     volunteer.save()
     context = {'volunteer': volunteer}
     return render(request, "volunteer/volunteerprofile.html", context)
 
+
 @login_required
 @volunteer_required
 def addToFavorites(request, volunteer_id, listing_id):
+    """View function to add listing to favorites"""
     volunteer = Volunteer.objects.get(user_id=volunteer_id)
     volunteer.favorites.add(Listing.objects.get(id=listing_id))
     volunteer.save()
     context = {'volunteer': volunteer}
     return render(request, "volunteer/volunteerprofile.html", context)
 
+
 @login_required
 @volunteer_required
 def removeFromFavorites(request, volunteer_id, listing_id):
+    """View function to remove listing from favorites"""
     volunteer = Volunteer.objects.get(user_id=volunteer_id)
     volunteer.favorites.remove(Listing.objects.get(id=listing_id))
     volunteer.save()
@@ -99,10 +105,9 @@ def removeFromFavorites(request, volunteer_id, listing_id):
 @login_required
 @npo_required
 def newListing(request, org_id):
+    """View function to create a new listing"""
     if request.user.id != org_id:
-        # listings = Listing.objects.all().order_by("-pub_date")
-        # context = {'listings': listings}
-        return render(request, "volunteer/404.html")
+        raise Http404
     if request.method != 'POST':
         form = NewListingForm()
     else:
@@ -117,7 +122,7 @@ def newListing(request, org_id):
 @login_required
 @npo_required
 def editListing(request, listing_id):
-    """The edit listing view"""
+    """View function to edit listing"""
     listing = Listing.objects.get(id=listing_id)
     if request.method != 'POST':
         form = NewListingForm(instance=listing)
@@ -135,18 +140,21 @@ def editListing(request, listing_id):
 def deleteListing(request, listing_id):
     """View function to delete listing"""
     listing = Listing.objects.get(id=listing_id)
-    org = listing.org
-    if request.method == 'POST':
+    npo_id = listing.org.user_id
+    if isCorrectUser(request, npo_id):
         listing.delete()
-        return HttpResponseRedirect(reverse('volunteer:npoprofile', args=[org.id]))
-    return render(request, "volunteer/index.html", {'listing': listing})
+        return HttpResponseRedirect(reverse('volunteer:npoprofile', args=[npo_id]))
+    else:
+        raise Http404
 
 
 def signup(request):
+    """displays account type selection page"""
     return render(request, "volunteer/signup.html")
 
 
 class VolunteerSignupView(CreateView):
+    """Volunteer signup view"""
     model = User
     form_class = VolunteerSignUpForm
     template_name = 'volunteer/signup_form.html'
@@ -160,7 +168,9 @@ class VolunteerSignupView(CreateView):
         login(self.request, user)
         return redirect('volunteer:index')
 
+
 class NPOSignUpView(CreateView):
+    """NPO signup view"""
     model = User
     form_class = NPOSignUpForm
     template_name = 'volunteer/signup_form.html'
@@ -174,7 +184,9 @@ class NPOSignUpView(CreateView):
         login(self.request, user)
         return redirect('volunteer:index')
 
+
 def login_view(request):
+    """Logs user in"""
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -193,10 +205,14 @@ def login_view(request):
     return render(request=request, template_name="volunteer/login.html", context={"login_form": form})
 
 
+def logout_view(request):
+    """Logs the user out"""
+    logout(request)
+    return HttpResponseRedirect(reverse('volunteer:index'))
+
+
 def search(request):
-    # listings = Listing.objects.all().order_by("-pub_date")
-    # context = {'listings': listings}
-    #
+    """View function to query for listings"""
     if request.method != 'POST':
         form = SearchForm()
     else:
@@ -207,11 +223,10 @@ def search(request):
                                               commitment=searchParams['commitment'],
                                               city__contains=searchParams['location'])
 
-
             context = {"listings": listings, 'searchParams': searchParams}
             context['form'] = form
             return render(request, "volunteer/search.html", context)
-    context = {'form':form}
+    context = {'form': form}
     # context['form'] = form
     return render(request, 'volunteer/search.html', context)
 
@@ -229,9 +244,9 @@ def editProfileNPO(request, npo_id):
         npo = NPO.objects.get(user=request.user)
         form = EditProfileForm(instance=npo.user)
         context = {"form": form}
-        return render(request, "volunteer/editprofile-npo.html", context)
+        return render(request, "volunteer/editprofile.html", context)
     else:
-        return render(request, "volunteer/404.html")
+        raise Http404
 
 
 @login_required
@@ -247,31 +262,31 @@ def editProfileVolunteer(request, volunteer_id):
         volunteer = Volunteer.objects.get(user=request.user)
         form = EditProfileForm(instance=volunteer.user)
         context = {"form": form}
-        return render(request, "volunteer/editprofile-npo.html", context)
+        return render(request, "volunteer/editprofile.html", context)
     else:
-        return render(request, "volunteer/404.html")
+        raise Http404
 
 
 def isCorrectUser(request, id):
     """Helper function to check if current active user id matches given id"""
     return request.user.id == id
 
+
 def error_400(request, exception):
     data = {}
     return render(request, 'volunteer/400.html', data)
+
 
 def error_403(request, exception):
     data = {}
     return render(request, 'volunteer/403.html', data)
 
+
 def error_404(request, exception):
     data = {}
     return render(request, 'volunteer/404.html', data)
 
+
 def error_500(request):
     data = {}
     return render(request, 'volunteer/500.html', data)
-
-
-
-

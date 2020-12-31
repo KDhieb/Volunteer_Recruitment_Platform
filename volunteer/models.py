@@ -21,20 +21,6 @@ CHOICES = [
     (MONTHLY, "Monthly"),
 ]
 
-# class Entity(models.Model):
-#     name = models.CharField(max_length=100, blank=True)
-#     number = models.CharField(max_length=15, blank=True, default="")
-#     email = models.CharField(max_length=50, blank=True, default="")
-#     address = models.CharField(max_length=200, blank=True, default="")
-#     about = models.TextField(blank=True, default='')
-#     access = models.IntegerField(default=-1)
-#
-#     class Meta:
-#         abstract = True
-#
-#     def __str__(self):
-#         return str(self.name)
-
 
 class User(AbstractUser):
     is_volunteer = models.BooleanField('volunteer status', default=False)

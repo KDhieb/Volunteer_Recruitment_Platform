@@ -40,9 +40,15 @@
 
                       <h4>Current Listings</h4>
 
-                      {% for listing in listings|slice:":5" %}
+                    {% if not listings %}
+                        <div class="container">
+                        <h3 class="lead"> No listings yet. Post your first listing!</h3>
+                        </div>
+                    {% endif %}
 
-                            <div class="row" data-aos="fade">
+                      {% for listing in listings %}
+
+                            <div class="row" data-aos="">
                             <div class="col-md-12">
 
                             <div class="job-post-item bg-white p-4 d-block d-md-flex align-items-center">
@@ -71,10 +77,14 @@
 
                                 <div class="ml-auto">
                                 {% if user.is_npo and user.id == npo.user_id  %}
-                                    <a href="#" class="btn btn-secondary rounded-circle btn-favorite text-gray-500"><span class="icon-trash"></span></a>
+                                    <a href="{% url 'volunteer:deletelisting' listing.id %}" class="btn btn-secondary rounded-circle btn-favorite text-gray-500"><span class="icon-trash"></span></a>
                                  {% elif user.is_volunteer %}
-                                    <a href="#" class="btn btn-secondary rounded-circle btn-favorite text-gray-500"><span class="icon-heart"></span></a>
-                                {% endif %}
+                                     {% if listing in user.volunteer.favorites.all %}
+                                        <a href="{% url 'volunteer:removefromfavorites' user.id listing.id %}" class="btn btn-secondary rounded-circle btn-favorite text-gray-500"><span class="icon-heart favorite-added" style="color: red"></span></a>
+                                      {% else %}
+                                        <a href="{% url 'volunteer:addtofavorites' user.id listing.id %}" class="btn btn-secondary rounded-circle btn-favorite text-gray-500"><span class="icon-heart"></span></a>
+                                      {% endif %}
+                                    {% endif %}
 
                                     <a href="{% url 'volunteer:displaylisting' listing.id %}" class="btn btn-primary py-2">View Listing</a>
 

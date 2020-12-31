@@ -26,9 +26,6 @@
             <li class="nav-item">
               <a class="nav-link active py-3" id="pills-job-tab" data-toggle="pill" href="#pills-job" role="tab" aria-controls="pills-job" aria-selected="true">Find A Role</a>
             </li>
-            <li class="nav-item">
-              <!-- <a class="nav-link py-3" id="pills-candidate-tab" data-toggle="pill" href="#pills-candidate" role="tab" aria-controls="pills-candidate" aria-selected="false">Find A Candidate</a> -->
-            </li>
           </ul>
           <div class="tab-content bg-white p-4 rounded" id="pills-tabContent">
             <div class="tab-pane fade show active" id="pills-job" role="tabpanel" aria-labelledby="pills-job-tab">
@@ -59,8 +56,6 @@
                 </div>
               </form>
 
-
-
             </div>
 
           </div>
@@ -77,9 +72,9 @@
       <div class="col-md-9" data-aos="fade">
         <h2 class="font-weight-bold text-black">Recent Postings</h2>
       </div>
-      <div class="col-md-3" data-aos="fade" data-aos-delay="200">
-        <!-- <a href="#" class="btn btn-primary py-3 btn-block"><span class="h5">+</span> Post a Job</a> -->
-      </div>
+{#      <div class="col-md-3" data-aos="fade" data-aos-delay="200">#}
+{#        <!-- <a href="#" class="btn btn-primary py-3 btn-block"><span class="h5">+</span> Post a Job</a> -->#}
+{#      </div>#}
     </div>
 
     {% for listing in listings|slice:":5" %}
@@ -143,90 +138,7 @@
     </div>
 
     {% endfor %}
-    
-<!--
-    <div class="row" data-aos="fade">
-     <div class="col-md-12">
-       <div class="job-post-item bg-white p-4 d-block d-md-flex align-items-center">
 
-          <div class="mb-4 mb-md-0 mr-5">
-           <div class="job-post-item-header d-flex align-items-center">
-             <h2 class="mr-3 text-black h4">Food Prep</h2>
-             <div class="badge-wrap">
-              <span class="bg-danger text-white badge py-2 px-4">Weekly</span>
-             </div>
-           </div>
-           <div class="job-post-item-body d-block d-md-flex">
-             <div class="mr-3"><span class="fl-bigmug-line-portfolio23"></span> <a href="npoprofile-ch.html">BC Children's Hospital</a></div>
-             <div><span class="fl-bigmug-line-big104"></span> <span>Vancouver</span></div>
-           </div>
-          </div>
-
-          <div class="ml-auto">
-            <a href="#" class="btn btn-secondary rounded-circle btn-favorite text-gray-500"><span class="icon-heart"></span></a>
-            <a href="job-single.html" class="btn btn-primary py-2">View Listing</a>
-            <a href="job-single.html" class="btn btn-primary py-2">Apply</a>
-          </div>
-
-       </div>
-     </div>
-    </div>
-
-    <div class="row" data-aos="fade">
-     <div class="col-md-12">
-       <div class="job-post-item bg-white p-4 d-block d-md-flex align-items-center">
-
-          <div class="mb-4 mb-md-0 mr-5">
-           <div class="job-post-item-header d-flex align-items-center">
-             <h2 class="mr-3 text-black h4">Outreach Coordinator</h2>
-             <div class="badge-wrap">
-              <span class="bg-warning text-white badge py-2 px-4">Monthly</span>
-             </div>
-           </div>
-           <div class="job-post-item-body d-block d-md-flex">
-             <div class="mr-3"><span class="fl-bigmug-line-portfolio23"></span> <a href="npoprofile-sa.html">Salvation Army BC</a></div>
-             <div><span class="fl-bigmug-line-big104"></span> <span>Vancouver</span></div>
-           </div>
-          </div>
-
-          <div class="ml-auto">
-            <a href="#" class="btn btn-secondary rounded-circle btn-favorite text-gray-500"><span class="icon-heart"></span></a>
-            <a href="job-single.html" class="btn btn-primary py-2">View Listing</a>
-            <a href="job-single.html" class="btn btn-primary py-2">Apply</a>
-          </div>
-
-       </div>
-     </div>
-    </div>
-
-    <div class="row" data-aos="fade">
-     <div class="col-md-12">
-
-       <div class="job-post-item bg-white p-4 d-block d-md-flex align-items-center">
-
-          <div class="mb-4 mb-md-0 mr-5">
-           <div class="job-post-item-header d-flex align-items-center">
-             <h2 class="mr-3 text-black h4">Meals on Wheels</h2>
-             <div class="badge-wrap">
-              <span class="bg-success text-white badge py-2 px-4">One-time</span>
-             </div>
-           </div>
-           <div class="job-post-item-body d-block d-md-flex">
-             <div class="mr-3"><span class="fl-bigmug-line-portfolio23"></span> <a href="npoprofile-sa.html">Salvation Army BC</a></div>
-             <div><span class="fl-bigmug-line-big104"></span> <span>Vancouver</span></div>
-           </div>
-          </div>
-
-          <div class="ml-auto">
-            <a href="#" class="btn btn-secondary rounded-circle btn-favorite text-gray-500"><span class="icon-heart"></span></a>
-            <a href="job-single.html" class="btn btn-primary py-2">View Listing</a>
-            <a href="job-single.html" class="btn btn-primary py-2">Apply</a>
-          </div>
-       </div>
-
-     </div>
-    </div>
--->
   
   </div>
 </div>
