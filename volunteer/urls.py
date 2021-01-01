@@ -31,5 +31,4 @@ urlpatterns = [
     path("unapply-from-listing-/<int:volunteer_id>/<int:listing_id>/", views.unapply, name="unapply"),
     path("add-to-favorites/<int:volunteer_id>/<int:listing_id>/", views.addToFavorites, name="addtofavorites"),
     path("remove-from-favorites/<int:volunteer_id>/<int:listing_id>/", views.removeFromFavorites, name="removefromfavorites"),
-
 ]

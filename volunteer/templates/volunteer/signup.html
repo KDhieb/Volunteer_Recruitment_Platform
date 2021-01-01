@@ -8,12 +8,10 @@
         <hr>
         <p class="lead">Select your account type</p>
         <div class="container" style="display:flex; flex-wrap: nowrap; justify-content: space-evenly">
-{#        <div class="card card-header" style="margin-right: 50px">#}
             <div>
             <a href="{% url 'volunteer:volunteer_signup' %}" class="card card-header btn btn-block btn-lg" role="button">Volunteer</a>
         </div>
 
-{#        <div class="card card-header">#}
         <div>
             <a href="{% url 'volunteer:npo_signup' %}" class="card card-header btn btn-lg" role="button">Non-Profit</a>
         </div>
