@@ -28,9 +28,9 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['go-lendahand.herokuapp.com']
+ALLOWED_HOSTS = ['go-lendahand.herokuapp.com',]
 
 AUTH_USER_MODEL = 'volunteer.User'
 
@@ -147,12 +147,23 @@ BOOTSTRAP3 = {
     'include_jquery': True,
 }
 
+
+
 CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': None,
-    }
-
-
+   'default': {
+       'toolbar_Full': [
+            ['Styles', 'Format', 'Bold', 'Italic', 'Underline', 'Strike', 'SpellChecker', 'Undo', 'Redo'],
+            ['Link', 'Unlink', 'Anchor'],
+            ['Image', 'Flash', 'Table', 'HorizontalRule'],
+            ['TextColor', 'BGColor'],
+            ['Smiley', 'SpecialChar'], ['Source'],
+            ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+            ['NumberedList','BulletedList'],
+            ['Indent','Outdent'],
+            ['Maximize'],
+        ],
+        'extraPlugins': 'justify,liststyle,indent',
+   },
 }
 
 cwd = os.getcwd()
