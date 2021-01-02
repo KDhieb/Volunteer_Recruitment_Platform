@@ -16,8 +16,7 @@ The website relies on Django for the backend, with SQLite for the database.
 
 # How to use:
 1. Clone Repo
-2. In **settings.py**, be sure to setup Django's **SECRET_KEY variable**. It is recommended to use an environment variable or untracked .txt file to store the code as to avoid writing it directly in the file. 
-3. In
+2. In **settings.py**, be sure to setup Django's **SECRET_KEY variable**. It is recommended to use an environment variable or untracked **.txt** file to store the code as to avoid writing it directly in the file. 
 3. Setup virtual environment using `virtualenv venvname`
 4. Install all necessary libraries in **requirements.txt**
 5. To initialize the models and database, first use `python manage.py makemigrations` followed by `python manage.py migrate`
