@@ -1,3 +1,2 @@
 .env
-volunteer/migrations
 db.sqlite3
